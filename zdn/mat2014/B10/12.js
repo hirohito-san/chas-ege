@@ -13,14 +13,14 @@ bCube.lowBx += 50;
 bCube.lowCx += 40;
 bCube.lowBy -= 10;
 var tmp = 0.3-Math.random(1)+0.000001;
-tmp = (tmp/Math.abs(tmp));
+tmp /= Math.abs(tmp);
 bCube.height += ((Math.floor(Math.random(1)*2.8)*20)*tmp/Math.abs(tmp));
 bCube.height -= 10;
 
 var q_end = ' многогранника, изображённого на рисунке, если все его углы прямые.';
 var g=[	'Найдите площадь поверхности'+q_end,
 		'Найдите объём'+q_end];
-var slid=sl(1000000000);
+
 var q_id = getRandomInt(0,1);
 var ab = getLen(bCube.lowAx, bCube.lowBx, bCube.lowAy, bCube.lowBy)/10;
 var ac = getLen(bCube.lowAx, bCube.lowCx, bCube.lowAy, bCube.lowCy)/10;
@@ -49,12 +49,7 @@ if(q_id==1){
 	var q_val = (ab*ac*hh - (_ab*_ac*_hh));
 }
 
-window.vopr.dey=function(){
-
-	var ris=document.getElementById('ris'+slid);
-	var ct = ris.getContext('2d');
-	var w=600;
-	var h=400;
+var actualDraw = function(ct){
 	ct.lineWidth=1;
 	ct.fillStyle='#000000';
 	ct.lineWidth = 2;
@@ -65,7 +60,7 @@ window.vopr.dey=function(){
 
 	/* A-B */ct.drawLineSpec(bCube.lowAx, bCube.lowAy, bCube.lowBx-Math.abs(bCube.lowBy-bCube.lowCy), bCube.lowBy);
 	/* A-C */ct.drawLineSpec(bCube.lowAx, bCube.lowAy, bCube.lowCx, bCube.lowCy);
-	/* C-C' */ct.drawLine(bCube.lowCx, bCube.lowCy, bCube.lowCx, bCube.lowCy+bCube.height)
+	/* C-C' */ct.drawLine(bCube.lowCx, bCube.lowCy, bCube.lowCx, bCube.lowCy+bCube.height);
 	/* D-D' */ct.drawLine(bCube.lowCx-Math.abs(bCube.lowBy-bCube.lowCy), bCube.lowBy, bCube.lowCx-Math.abs(bCube.lowBy-bCube.lowCy), bCube.lowBy+bCube.height);
 
 	/* A-B */ct.drawLineSpec(bCube.lowAx, bCube.lowAy, bCube.lowBx-Math.abs(bCube.lowBy-bCube.lowCy), bCube.lowBy);
@@ -82,7 +77,7 @@ window.vopr.dey=function(){
 
 	/* A-A' */ct.drawLine(sCube.lowAx, sCube.lowAy, sCube.lowAx, sCube.lowAy+sCube.height);
 	/* B-B' */ct.drawLine(sCube.lowBx-Math.abs(sCube.lowBy-sCube.lowCy), sCube.lowBy, sCube.lowBx-Math.abs(sCube.lowBy-sCube.lowCy), sCube.lowBy+sCube.height);
-	/* C-C' */ct.drawLine(sCube.lowCx, sCube.lowCy, sCube.lowCx, sCube.lowCy+sCube.height)
+	/* C-C' */ct.drawLine(sCube.lowCx, sCube.lowCy, sCube.lowCx, sCube.lowCy+sCube.height);
 	/* D-D' */ct.drawLine(sCube.lowCx-Math.abs(sCube.lowBy-sCube.lowCy), sCube.lowBy, sCube.lowCx-Math.abs(sCube.lowBy-sCube.lowCy), sCube.lowBy+sCube.height);
 
 	/* A-B */ct.drawLine(sCube.lowAx, sCube.lowAy, sCube.lowBx-Math.abs(sCube.lowBy-sCube.lowCy), sCube.lowBy);
@@ -135,14 +130,20 @@ window.vopr.dey=function(){
 	ct.fillKrug(600,0,10);
 
 	ct.fillStyle='black';
-
-	$('#ris').attr('id','');
 };
 
-window.vopr.txt='<canvas style="float:left;margin-right:1em;" width="600" height="400" id="ris'+slid+'" style="text-align:center" opozn="'+Math.random()+'"></canvas>'+
-	''+g[q_id];
-window.vopr.ver=[''+q_val];
+// Создание задания через API тренажёра
+chas2.task.setTask({
+	text: g[q_id],  // Текст задания
+	answers: q_val, // Правильный ответ
+});
+
+// Здесь добавляется рисунок с canvas
+chas2.task.modifiers.addCanvasIllustration({
+	width: 600,
+	height: 400,
+	paint: actualDraw,
+});
 
 })();
-
 //by _zevs
