@@ -7,11 +7,11 @@
 
 var klass=[9,11]. iz();
 var paral=['А', 'Б', 'В', 'Г'].iz();
-var uchit=sluchch(1,4,2);
-var direc=sluchch(4,10,2);
+var uchit=sluchch(1,5,2);
+var direc=slKrome(uchit,3,9,2);
 var k=sluchch(10,20,1);
 var c=sluchch(20,40,5);
-var cvet=sklonlxkand(['роза','гвоздика','гербера', 'ромашка', 'ирис', 'хризантема','георгина', 'нарцисс', 'тюльпан', 'лилия'].iz()); 
+var cvet=sklonlxkand(['роза','гвоздика','гербера', 'ромашка', 'ирис', 'хризантема','георгина', 'нарцисс', 'тюльпан', 'лилия'].iz());
 
 NAtask.setTask({
 	text : 'Выпускники ' + klass + ' "' + paral + '" покупают букеты цветов для последнего звонка: из ' +

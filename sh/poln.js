@@ -32,20 +32,22 @@ function zapusk(){
 	iZ=aZ.slice();
 	kategory=1;
 	$('#panel').html('Тест составляется, подождите...');
-	$('#gotov').show();
+	$('#readiness-message').show();
 	zadan();
 }
 
 function testGotov(){
 	vazhnOn();
-	$('#gotov').hide();
+	$('#readiness-message').hide();
 	for(var i=0;i<aZ.sum();i++)
 		try{
 			voprosy[i].dey();
 		}catch(e){};
 	allCanvasToBackgroundImage();
 	$('#panel').remove();
-	alert('Тест составлен.\nМожно приступать к решению!');
+	if(!(parsedJSON && parsedJSON.shellOptions && parsedJSON.shellOptions.noalert)) {
+		alert('Тест составлен.\nМожно приступать к решению!');
+	}
 }
 
 function konecSozd(){
@@ -93,7 +95,7 @@ function obnov(){
 			'</div>';
 		//Копируем вопрос в массив
 		voprosy.push(vopr.clone());
-		
+
 		var w=sdel/kZ;
 		$('.tx').text((100*w).toFixedLess(1).dopdo(' ',4)+'%');
 		$('#pr1').width($('#pr0').width()*w);
@@ -114,7 +116,7 @@ function prov(){
 			$('#otv_ver'+i).show();
 		}else{
 			nNev++;
-			$('#otv_nev'+i).show();		
+			$('#otv_nev'+i).show();
 		}
 	}
 	$('#but_prov').hide();
@@ -125,8 +127,12 @@ function prov(){
 
 var startShell = function (){
 	$('#zadaniya').html(sozdKolvoHtml('poln'));
-	$('#gotov').hide();
+	$('#readiness-message').hide();
 	galkiKat('#galki_kat','pech');
 	$('#prov_knopki').hide();
 	assertCheckability();
+	if(parsedJSON && parsedJSON.shellOptions && parsedJSON.shellOptions.autorun){
+		vse1();
+		zapusk();
+	}
 }
